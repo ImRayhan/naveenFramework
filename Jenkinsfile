@@ -38,6 +38,7 @@ pipeline {
                     script {
                         git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
                     }
+                    // Pass the suiteXmlFile property to Maven
                     sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml"
                 }
             }
@@ -74,48 +75,3 @@ pipeline {
                              reportFiles: 'TestExecutionReport.html', 
                              reportName: 'HTML Regression Extent Report', 
                              reportTitles: ''])
-            }
-        }
-        
-        stage("Deploy to Stage") {
-            steps {
-                echo("deploy to Stage")
-            }
-        }
-        
-        stage('Sanity Automation Test') {
-            steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    script {
-                        git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
-                    }
-                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml"
-                }
-            }
-        }
-        
-        stage('Publish Sanity Extent Report') {
-            steps {
-                script {
-                    def reportDir = "${env.WORKSPACE}/reports"
-                    if (!fileExists(reportDir)) {
-                        sh "mkdir -p ${reportDir}"
-                    }
-                }
-                publishHTML([allowMissing: false,
-                             alwaysLinkToLastBuild: false, 
-                             keepAll: true, 
-                             reportDir: 'reports', 
-                             reportFiles: 'TestExecutionReport.html', 
-                             reportName: 'HTML Sanity Extent Report', 
-                             reportTitles: ''])
-            }
-        }
-        
-        stage("Deploy to PROD") {
-            steps {
-                echo("deploy to PROD")
-            }
-        }
-    }
-}
