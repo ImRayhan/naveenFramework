@@ -5,16 +5,11 @@ pipeline {
         maven 'maven' // Ensure 'maven' is configured in Jenkins Global Tool Configuration
     }
 
-    environment {
-        // Ensure the right directory paths for the test results
-        ALLURE_RESULTS = 'allure-results'
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
                 script {
-                    git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
+                    git url: 'https://github.com/jglick/simple-maven-project-with-tests.git'
                 }
             }
         }
@@ -26,19 +21,101 @@ pipeline {
             post {
                 success {
                     junit '**/target/surefire-reports/TEST-*.xml'
-                    archiveArtifacts artifacts: 'target/*.jar', allowEmptyArchive: true
-                }
-                failure {
-                    echo "Build failed."
+                    archiveArtifacts 'target/*.jar'
                 }
             }
         }
         
-        stage('Deploy to QA') {
+        stage("Deploy to QA") {
             steps {
-                echo "deploy to qa"
+                echo("deploy to qa")
             }
         }
         
         stage('Regression Automation Tests') {
-            s
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    script {
+                        git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
+                    }
+                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml"
+                }
+            }
+        }
+                
+        stage('Publish Allure Reports') {
+            steps {
+                script {
+                    // Ensure the allure results directory exists and is used
+                    sh 'mkdir -p allure-results'
+                    allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results: [[path: '/allure-results']]
+                    ])
+                }
+            }
+        }
+        
+        stage('Publish Extent Report') {
+            steps {
+                script {
+                    def reportDir = "${env.WORKSPACE}/reports"
+                    if (!fileExists(reportDir)) {
+                        sh "mkdir -p ${reportDir}"
+                    }
+                }
+                publishHTML([allowMissing: false,
+                             alwaysLinkToLastBuild: false, 
+                             keepAll: true, 
+                             reportDir: 'reports', 
+                             reportFiles: 'TestExecutionReport.html', 
+                             reportName: 'HTML Regression Extent Report', 
+                             reportTitles: ''])
+            }
+        }
+        
+        stage("Deploy to Stage") {
+            steps {
+                echo("deploy to Stage")
+            }
+        }
+        
+        stage('Sanity Automation Test') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    script {
+                        git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
+                    }
+                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml"
+                }
+            }
+        }
+        
+        stage('Publish Sanity Extent Report') {
+            steps {
+                script {
+                    def reportDir = "${env.WORKSPACE}/reports"
+                    if (!fileExists(reportDir)) {
+                        sh "mkdir -p ${reportDir}"
+                    }
+                }
+                publishHTML([allowMissing: false,
+                             alwaysLinkToLastBuild: false, 
+                             keepAll: true, 
+                             reportDir: 'reports', 
+                             reportFiles: 'TestExecutionReport.html', 
+                             reportName: 'HTML Sanity Extent Report', 
+                             reportTitles: ''])
+            }
+        }
+        
+        stage("Deploy to PROD") {
+            steps {
+                echo("deploy to PROD")
+            }
+        }
+    }
+}
