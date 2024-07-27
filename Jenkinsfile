@@ -1,53 +1,54 @@
-pipeline {
+pipeline 
+{
     agent any
     
-    tools {
-        maven 'maven' // Ensure 'maven' is configured in Jenkins Global Tool Configuration
-    }
-
-    stages {
-        stage('Checkout Code') {
-            steps {
-                script {
-                    git url: 'https://github.com/jglick/simple-maven-project-with-tests.git'
-                }
-            }
+    tools{
+        maven 'maven'
         }
-        
-        stage('Build') {
-            steps {
-                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+
+    stages 
+    {
+        stage('Build') 
+        {
+            steps
+            {
+                 git 'https://github.com/jglick/simple-maven-project-with-tests.git'
+                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
-            post {
-                success {
+            post 
+            {
+                success
+                {
                     junit '**/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts 'target/*.jar'
                 }
             }
         }
         
-        stage("Deploy to QA") {
-            steps {
+        
+        
+        stage("Deploy to QA"){
+            steps{
                 echo("deploy to qa")
             }
         }
         
+        
+                
         stage('Regression Automation Tests') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    script {
-                        git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
-                    }
+                    git 'https://github.com/ImRayhan/naveenFramework.git'
                     sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml"
+                    
                 }
             }
         }
                 
+     
         stage('Publish Allure Reports') {
-            steps {
+           steps {
                 script {
-                    // Ensure the allure results directory exists and is used
-                    sh 'mkdir -p allure-results'
                     allure([
                         includeProperties: false,
                         jdk: '',
@@ -59,26 +60,21 @@ pipeline {
             }
         }
         
-        stage('Publish Extent Report') {
-            steps {
-                script {
-                    def reportDir = "${env.WORKSPACE}/reports"
-                    if (!fileExists(reportDir)) {
-                        sh "mkdir -p ${reportDir}"
-                    }
-                }
-                publishHTML([allowMissing: false,
-                             alwaysLinkToLastBuild: false, 
-                             keepAll: true, 
-                             reportDir: 'reports', 
-                             reportFiles: 'TestExecutionReport.html', 
-                             reportName: 'HTML Regression Extent Report', 
-                             reportTitles: ''])
+        
+        stage('Publish Extent Report'){
+            steps{
+                     publishHTML([allowMissing: false,
+                                  alwaysLinkToLastBuild: false, 
+                                  keepAll: true, 
+                                  reportDir: 'reports', 
+                                  reportFiles: 'TestExecutionReport.html', 
+                                  reportName: 'HTML Regression Extent Report', 
+                                  reportTitles: ''])
             }
         }
         
-        stage("Deploy to Stage") {
-            steps {
+        stage("Deploy to Stage"){
+            steps{
                 echo("deploy to Stage")
             }
         }
@@ -86,36 +82,34 @@ pipeline {
         stage('Sanity Automation Test') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                    script {
-                        git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
-                    }
+                    git 'https://github.com/ImRayhan/naveenFramework.git'
                     sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml"
+                    
                 }
             }
         }
         
-        stage('Publish Sanity Extent Report') {
-            steps {
-                script {
-                    def reportDir = "${env.WORKSPACE}/reports"
-                    if (!fileExists(reportDir)) {
-                        sh "mkdir -p ${reportDir}"
-                    }
-                }
-                publishHTML([allowMissing: false,
-                             alwaysLinkToLastBuild: false, 
-                             keepAll: true, 
-                             reportDir: 'reports', 
-                             reportFiles: 'TestExecutionReport.html', 
-                             reportName: 'HTML Sanity Extent Report', 
-                             reportTitles: ''])
+        
+        
+        stage('Publish sanity Extent Report'){
+            steps{
+                     publishHTML([allowMissing: false,
+                                  alwaysLinkToLastBuild: false, 
+                                  keepAll: true, 
+                                  reportDir: 'reports', 
+                                  reportFiles: 'TestExecutionReport.html', 
+                                  reportName: 'HTML Sanity Extent Report', 
+                                  reportTitles: ''])
             }
         }
         
-        stage("Deploy to PROD") {
-            steps {
+        
+        stage("Deploy to PROD"){
+            steps{
                 echo("deploy to PROD")
             }
         }
+        
+        
     }
 }
