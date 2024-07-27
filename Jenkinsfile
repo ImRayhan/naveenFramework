@@ -46,6 +46,7 @@ pipeline {
         stage('Publish Allure Reports') {
             steps {
                 script {
+                    // Ensure the allure results directory exists and is used
                     sh 'mkdir -p allure-results'
                     allure([
                         includeProperties: false,
