@@ -19,18 +19,22 @@
 		<maven.compiler.target>11</maven.compiler.target>
 		<extentreports-version>5.0.8</extentreports-version>
 		<aspectj.version>1.9.19</aspectj.version>
-	</properties>
-	
-	
-	<distributionManagement>
-		<snapshotRepository>
-			<id>nexus-snapshots</id>
-			<url>http://admin:test123@localhost:8081/repository/maven-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
 	
 
+	</properties>
+
+
 	<dependencies>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.28</version> <!-- Replace with the latest version if
+			available -->
+			<scope>provided</scope>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
@@ -77,7 +81,6 @@
 		</dependency>
 
 
-
 		<dependency>
 			<groupId>com.aventstack</groupId>
 			<artifactId>extentreports</artifactId>
@@ -95,20 +98,20 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>${aspectj.version}</version>
 		</dependency>
-
-
 	</dependencies>
 
 	<build>
+
 
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>3.10.1</version> <!-- Replace with the latest version if
+				available -->
 				<configuration>
-					<source>11</source>
-					<target>11</target>
+					<source>11</source> <!-- Or your Java version -->
+					<target>11</target> <!-- Or your Java version -->
 				</configuration>
 			</plugin>
 
@@ -122,8 +125,9 @@
 					<forkCount>3</forkCount>
 					<reuseForks>true</reuseForks>
 					<suiteXmlFiles>
-						<!--<suiteXmlFile>src/test/resources/testrunners/testng_regression.xml</suiteXmlFile> -->
-						 <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+					<!-- 	<suiteXmlFile>
+							src/test/resources/testrunners/testng_regression.xml</suiteXmlFile> -->
+						 <suiteXmlFile>${suiteXmlFile}</suiteXmlFile> 
 					</suiteXmlFiles>
 
 					<argLine>
@@ -137,6 +141,8 @@
 						<artifactId>aspectjweaver</artifactId>
 						<version>${aspectj.version}</version>
 					</dependency>
+
+
 				</dependencies>
 
 
@@ -173,8 +179,8 @@
 			</plugin>
 
 
-
 		</plugins>
+
 
 	</build>
 </project>
