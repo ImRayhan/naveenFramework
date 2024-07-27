@@ -2,14 +2,15 @@ pipeline {
     agent any
     
     tools {
-        maven 'maven' // Ensure 'maven' is configured in Jenkins Global Tool Configuration
+        git 'Default' // Use the Git installation named 'Default'
+        maven 'maven' // Ensure 'maven' is also configured in Jenkins Global Tool Configuration
     }
 
     stages {
         stage('Checkout Code') {
             steps {
                 script {
-                    git url: 'https://github.com/jglick/simple-maven-project-with-tests.git'
+                    git branch: 'main', url: 'https://github.com/jglick/simple-maven-project-with-tests.git'
                 }
             }
         }
@@ -36,24 +37,24 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     script {
-                        git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
+                        git branch: 'main', url: 'https://github.com/ImRayhan/naveenFramework.git'
                     }
                     sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml"
                 }
             }
         }
-                
+        
         stage('Publish Allure Reports') {
             steps {
                 script {
-                    // Ensure the allure results directory exists and is used
+                    // Ensure the allure results directory exists
                     sh 'mkdir -p allure-results'
                     allure([
                         includeProperties: false,
                         jdk: '',
                         properties: [],
                         reportBuildPolicy: 'ALWAYS',
-                        results: [[path: '/allure-results']]
+                        results: [[path: 'allure-results']]
                     ])
                 }
             }
@@ -87,7 +88,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     script {
-                        git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
+                        git branch: 'main', url: 'https://github.com/ImRayhan/naveenFramework.git'
                     }
                     sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml"
                 }
