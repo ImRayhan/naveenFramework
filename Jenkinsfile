@@ -1,115 +1,108 @@
-pipeline 
-{
+pipeline {
     agent any
     
-    tools{
+    tools {
         maven 'maven'
-        }
+    }
 
-    stages 
-    {
-        stage('Build') 
-        {
-            steps
-            {
-                 git 'https://github.com/jglick/simple-maven-project-with-tests.git'
-                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
+    stages {
+        stage('Build') {
+            steps {
+                git url: 'https://github.com/jglick/simple-maven-project-with-tests.git', branch: 'main'
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
-            post 
-            {
-                success
-                {
+            post {
+                success {
                     junit '**/target/surefire-reports/TEST-*.xml'
                     archiveArtifacts 'target/*.jar'
                 }
             }
         }
-        
-        
-        
-        stage("Deploy to QA"){
-            steps{
+
+        stage("Deploy to QA") {
+            steps {
                 echo("deploy to qa")
             }
         }
-        
-        
-                
+
         stage('Regression Automation Tests') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                  git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
+                    git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
                     sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml"
-                    
                 }
             }
         }
-                
-     
+
         stage('Publish Allure Reports') {
-           steps {
+            steps {
                 script {
                     allure([
                         includeProperties: false,
                         jdk: '',
                         properties: [],
                         reportBuildPolicy: 'ALWAYS',
-                        results: [[path: '/allure-results']]
+                        results: [[path: 'allure-results']]
                     ])
                 }
             }
         }
-        
-        
-        stage('Publish Extent Report'){
-            steps{
-                     publishHTML([allowMissing: false,
-                                  alwaysLinkToLastBuild: false, 
-                                  keepAll: true, 
-                                  reportDir: 'reports', 
-                                  reportFiles: 'TestExecutionReport.html', 
-                                  reportName: 'HTML Regression Extent Report', 
-                                  reportTitles: ''])
+
+        stage('Publish Extent Report') {
+            steps {
+                publishHTML([allowMissing: false,
+                             alwaysLinkToLastBuild: false, 
+                             keepAll: true, 
+                             reportDir: 'reports', 
+                             reportFiles: 'TestExecutionReport.html', 
+                             reportName: 'HTML Regression Extent Report', 
+                             reportTitles: ''])
             }
         }
-        
-        stage("Deploy to Stage"){
-            steps{
+
+        stage("Deploy to Stage") {
+            steps {
                 echo("deploy to Stage")
             }
         }
-        
+
         stage('Sanity Automation Test') {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                   git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
+                    git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
                     sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml"
-                    
                 }
             }
         }
-        
-        
-        
-        stage('Publish sanity Extent Report'){
-            steps{
-                     publishHTML([allowMissing: false,
-                                  alwaysLinkToLastBuild: false, 
-                                  keepAll: true, 
-                                  reportDir: 'reports', 
-                                  reportFiles: 'TestExecutionReport.html', 
-                                  reportName: 'HTML Sanity Extent Report', 
-                                  reportTitles: ''])
+
+        stage('Publish sanity Extent Report') {
+            steps {
+                publishHTML([allowMissing: false,
+                             alwaysLinkToLastBuild: false, 
+                             keepAll: true, 
+                             reportDir: 'reports', 
+                             reportFiles: 'TestExecutionReport.html', 
+                             reportName: 'HTML Sanity Extent Report', 
+                             reportTitles: ''])
             }
         }
-        
-        
-        stage("Deploy to PROD"){
-            steps{
+
+        stage("Deploy to PROD") {
+            steps {
                 echo("deploy to PROD")
             }
         }
-        
-        
+    }
+
+    post {
+        always {
+            script {
+                if (currentBuild.result == 'UNSTABLE') {
+                    echo "The build is unstable, check the test results and logs."
+                } else if (currentBuild.result == 'FAILURE') {
+                    echo "The build failed, please check the logs and fix the issues."
+                }
+            }
+        }
     }
 }
