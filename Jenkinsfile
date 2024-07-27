@@ -33,15 +33,12 @@ pipeline {
         }
         
         stage('Regression Automation Tests') {
-            environment {
-                suiteXmlFile = 'src/test/resources/testrunners/testng_regression.xml'
-            }
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     script {
                         git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
                     }
-                    sh "mvn clean test -Dsurefire.suiteXmlFiles=${suiteXmlFile}"
+                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml"
                 }
             }
         }
@@ -49,6 +46,7 @@ pipeline {
         stage('Publish Allure Reports') {
             steps {
                 script {
+                    // Ensure the allure results directory exists
                     sh 'mkdir -p allure-results'
                     allure([
                         includeProperties: false,
@@ -86,15 +84,12 @@ pipeline {
         }
         
         stage('Sanity Automation Test') {
-            environment {
-                suiteXmlFile = 'src/test/resources/testrunners/testng_sanity.xml'
-            }
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     script {
                         git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
                     }
-                    sh "mvn clean test -Dsurefire.suiteXmlFiles=${suiteXmlFile}"
+                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml"
                 }
             }
         }
