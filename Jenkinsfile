@@ -9,7 +9,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 script {
-                    git url: 'https://github.com/jglick/simple-maven-project-with-tests.git'
+                    git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
                 }
             }
         }
@@ -53,7 +53,7 @@ pipeline {
                         jdk: '',
                         properties: [],
                         reportBuildPolicy: 'ALWAYS',
-                        results: [[path: '/allure-results']]
+                        results: [[path: 'allure-results']]
                     ])
                 }
             }
@@ -103,19 +103,4 @@ pipeline {
                     }
                 }
                 publishHTML([allowMissing: false,
-                             alwaysLinkToLastBuild: false, 
-                             keepAll: true, 
-                             reportDir: 'reports', 
-                             reportFiles: 'TestExecutionReport.html', 
-                             reportName: 'HTML Sanity Extent Report', 
-                             reportTitles: ''])
-            }
-        }
-        
-        stage("Deploy to PROD") {
-            steps {
-                echo("deploy to PROD")
-            }
-        }
-    }
-}
+                             alwaysLink
