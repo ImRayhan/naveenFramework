@@ -27,7 +27,9 @@ public class DriverFactory {
 	public static String highlight = null;
 
 	public WebDriver initDriver(Properties prop) {
+
 		String browserName = prop.getProperty("browser");
+
 
 		// String browserName = System.getProperty("browser");
 
@@ -90,7 +92,7 @@ public class DriverFactory {
 
 			if (envName == null) {
 				ip = new FileInputStream("./src/test/resources/config/config.properties");
-				System.out.println("Your env is null running on qa env");
+				System.out.println("Your env is null running on prod env");
 			}
 
 			else {

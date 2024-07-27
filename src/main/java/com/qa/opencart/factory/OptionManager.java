@@ -12,7 +12,7 @@ public class OptionManager {
 	private ChromeOptions co;
 	private FirefoxOptions fo;
 	private EdgeOptions eo;
-	
+
 	public OptionManager(Properties prop) {
 		this.prop = prop;
 
