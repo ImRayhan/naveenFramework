@@ -38,7 +38,7 @@ pipeline {
                     script {
                         git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
                     }
-                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_regression.xml"
+                   sh "mvn clean test -Dsurefire.suiteXmlFiles=${suiteXmlFile}"
                 }
             }
         }
@@ -89,7 +89,7 @@ pipeline {
                     script {
                         git url: 'https://github.com/ImRayhan/naveenFramework.git', branch: 'main'
                     }
-                    sh "mvn clean test -Dsurefire.suiteXmlFiles=src/test/resources/testrunners/testng_sanity.xml"
+                  sh "mvn clean test -Dsurefire.suiteXmlFiles=${suiteXmlFile}"
                 }
             }
         }
