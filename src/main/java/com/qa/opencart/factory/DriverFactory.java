@@ -82,6 +82,8 @@ public class DriverFactory {
 	public Properties initProp() {
 		// mvn clean install -Denv="qa"
 		// mvn clean install
+		//ngrok http 8080 - for ngrock server which is auto trigger i=jenkins if i push any new code
+		
 		FileInputStream ip = null;
 		prop = new Properties();
 
