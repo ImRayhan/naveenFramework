@@ -16,8 +16,8 @@
 		</classes>
 	</test>
 
-	  <test name="Accounts Page Test">
-		<parameter name="browser" value="chrome" />
+	   <test name="Accounts Page Test">
+		<parameter name="browser" value="firefox" />
 		<classes>
 			<class name="com.qa.opencart.tests.AccountPageTest" />
 		</classes>
