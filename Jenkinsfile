@@ -54,7 +54,7 @@ pipeline
                         jdk: '',
                         properties: [],
                         reportBuildPolicy: 'ALWAYS',
-                        results: [[path: '/Users/rayhanchowdhury/eclipse-workspace/naveenFrameWork']]
+                        results: [[path: 'allure-results']]
                     ])
                 }
             }
