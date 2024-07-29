@@ -126,10 +126,10 @@
 					<forkCount>3</forkCount>
 					<reuseForks>true</reuseForks>
 					<suiteXmlFiles>
-					<!--	<suiteXmlFile>
-							src/test/resources/testrunners/testng_regression.xml</suiteXmlFile> -->
 						<suiteXmlFile>
-							src/test/resources/testrunners/testng_sanity.xml</suiteXmlFile>
+							src/test/resources/testrunners/testng_regression.xml</suiteXmlFile> 
+					<!--	<suiteXmlFile>
+							src/test/resources/testrunners/testng_sanity.xml</suiteXmlFile>-->
 					
 						<!--this is need parameeter jenkins job build presteps  -Dbrowser=$browserName-->
 						<!--	<suiteXmlFile>${suiteXmlFile}</suiteXmlFile> -->
