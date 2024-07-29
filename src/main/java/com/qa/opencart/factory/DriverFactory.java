@@ -152,26 +152,26 @@ public class DriverFactory {
 		try {
 
 			if (envName == null) {
-				ip = new FileInputStream("./src/test/resources/config/config.qa.properties");
+				ip = new FileInputStream("src/test/resources/config/config.qa.properties");
 				System.out.println("Your env is null running on qa env");
 			}
 
 			else {
 				switch (envName.toLowerCase().trim()) {
 				case "qa":
-					ip = new FileInputStream(".src/test/resources/config/config.qa.properties");
+					ip = new FileInputStream("src/test/resources/config/config.qa.properties");
 
 					break;
 				case "dev":
-					ip = new FileInputStream("./src/test/resources/config/config.dev.properties");
+					ip = new FileInputStream("src/test/resources/config/config.dev.properties");
 
 					break;
 				case "stage":
-					ip = new FileInputStream("./src/test/resources/config/config.stage.properties");
+					ip = new FileInputStream("src/test/resources/config/config.stage.properties");
 
 					break;
 				case "prod":
-					ip = new FileInputStream("./src/test/resources/config/config.properties");
+					ip = new FileInputStream("src/test/resources/config/config.prod.properties");
 
 					break;
 
