@@ -11,7 +11,7 @@
 
 	<test name="Login Page Test">
 		<parameter name="browser" value="chrome" />
-		<parameter name="browserversion" value="113.0" />
+		<parameter name="browserversion" value="111.0" />
 		<parameter name="testname" value="Login Page Test" />
 		<classes>
 			<class name="com.qa.opencart.tests.LoginPageTest" />
@@ -19,8 +19,8 @@
 	</test>
 
 	<test name="Accounts Page Test">
-		<parameter name="browser" value="firefox" />
-		<parameter name="browserversion" value="117.0" />
+		<parameter name="browser" value="chrome" />
+		<parameter name="browserversion" value="111.0" />
 			<parameter name="testname" value="Accounts Page Test" />
 		<classes>
 			<class name="com.qa.opencart.tests.AccountPageTest" />

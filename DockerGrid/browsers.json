@@ -1,0 +1,77 @@
+{
+    "firefox": {
+        "default": "57.0",
+        "versions": {
+            "57.0": {
+                "image": "selenoid/vnc:firefox_57.0",
+                "port": "4444",
+                "path": "/wd/hub"
+            },
+            "83.0": {
+                "image": "selenoid/vnc:firefox_83.0",
+                "port": "4444",
+                "path": "/wd/hub"
+            },
+            "116.0": {
+                "image": "selenoid/vnc:firefox_116.0",
+                "port": "4444",
+                "path": "/wd/hub"
+            },
+            "117.0": {
+                "image": "selenoid/vnc:firefox_117.0",
+                "port": "4444",
+                "path": "/wd/hub"
+            },
+            "118.0": {
+                "image": "selenoid/vnc:firefox_118.0",
+                "port": "4444",
+                "path": "/wd/hub"
+            },
+            "119.0": {
+                "image": "selenoid/vnc:firefox_119.0",
+                "port": "4444",
+                "path": "/wd/hub"
+            }
+        }
+    },
+    "chrome": {
+        "default": "latest",
+        "versions": {
+            "79.0": {
+                "image": "selenoid/vnc:chrome_79.0",
+                "port": "4444",
+                "path": "/"
+            },
+            "90.0": {
+                "image": "selenoid/vnc:chrome_90.0",
+                "port": "4444",
+                "path": "/"
+            },
+            "113.0": {
+                "image": "selenoid/vnc:chrome_113.0",
+                "port": "4444",
+                "path": "/"
+            },
+            "111.0": {
+                "image": "selenoid/vnc:chrome_111.0",
+                "port": "4444",
+                "path": "/"
+            },
+            "119.0": {
+                "image": "selenoid/vnc:chrome_119.0",
+                "port": "4444",
+                "path": "/"
+            },
+            "120.0": {
+                "image": "selenoid/vnc:chrome_120.0",
+                "port": "4444",
+                "path": "/"
+            },
+            "121.0": {
+                "image": "selenoid/vnc:chrome_121.0",
+                "port": "4444",
+                "path": "/"
+            }
+        }
+    }
+}
