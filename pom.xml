@@ -22,6 +22,12 @@
 
 
 	</properties>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>nexus-snapshots</id>
+			<url>http://admin:6354@localhost:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 
 	<dependencies>
@@ -127,8 +133,8 @@
 					<reuseForks>true</reuseForks>
 					<suiteXmlFiles>
 						<suiteXmlFile>
-							src/test/resources/testrunners/testng_regression.xml</suiteXmlFile> 
-					<!--	<suiteXmlFile>
+							src/test/resources/testrunners/testng_regression.xml</suiteXmlFile>
+						<!--	<suiteXmlFile>
 							src/test/resources/testrunners/testng_sanity.xml</suiteXmlFile>-->
 
 						<!--this is need parameeter jenkins job build presteps  -Dbrowser=$browserName-->
