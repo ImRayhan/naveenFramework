@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
@@ -18,7 +20,6 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import com.qa.opencart.exeption.FrameworkExeption;
 import com.qa.opencart.factory.DriverFactory;
 
@@ -30,6 +31,9 @@ public class ElementUtil {
 	// SRP
 
 	private WebDriver driver;
+	
+	private static final Logger log = LogManager.getLogger(ElementUtil.class);
+
 
 	public ElementUtil(WebDriver driver) {
 		this.driver = driver;
@@ -81,6 +85,15 @@ public class ElementUtil {
 		return by;
 
 	}
+	
+	private void logLocator(By locator) {
+		log.info("locator : "+ locator);
+		
+	}
+	private void logLocator(By locator, String value) {
+		log.info("locator : "+ locator +"----value---"+ value);
+		
+	}
 
 	// locatorType = "id", locatorValue = "input-email", value = "tom@gmail.com"
 	public void doSendKeys(String locatorType, String locatorValue, String value) {
@@ -88,6 +101,7 @@ public class ElementUtil {
 	}
 
 	public void doSendKeys(By locator, String value) {
+		logLocator(locator,value);
 		getElement(locator).sendKeys(value);
 	}
 
@@ -112,6 +126,7 @@ public class ElementUtil {
 	}
 
 	public WebElement getElement(By locator) {
+		logLocator(locator);
 		WebElement element = driver.findElement(locator);
 		ishighlight(element);
 

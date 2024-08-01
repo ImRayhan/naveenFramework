@@ -1,0 +1,12 @@
+2024-07-31 19:11:00 INFO  BaseTest:39 - chrome : 111.0 : Login Page Test
+2024-07-31 19:11:00 INFO  DriverFactory:161 - env name is:null
+2024-07-31 19:11:00 INFO  DriverFactory:168 - java.io.FileInputStream@1feb3b7e
+2024-07-31 19:11:00 INFO  DriverFactory:46 - browser name is chrome
+2024-07-31 19:11:05 INFO  LoginPage:39 - login page title:Account Login
+2024-07-31 19:11:05 INFO  LoginPageTest:35 - Actual loginpage title: Account Login
+2024-07-31 19:11:05 INFO  LoginPage:48 - login page url:https://naveenautomationlabs.com/opencart/index.php?route=account/login
+2024-07-31 19:11:05 INFO  LoginPage:67 - creditials aare: ab123456789@yahoo.com : ab123456789
+2024-07-31 19:11:05 INFO  ElementUtil:94 - locator : By.id: input-password----value---ab123456789
+2024-07-31 19:11:05 INFO  ElementUtil:90 - locator : By.id: input-password
+2024-07-31 19:11:05 INFO  ElementUtil:90 - locator : By.xpath: //input[@value='Login']
+2024-07-31 19:11:06 INFO  BaseTest:59 - browser closed....

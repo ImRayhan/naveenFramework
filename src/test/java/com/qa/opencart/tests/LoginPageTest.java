@@ -1,5 +1,7 @@
 package com.qa.opencart.tests;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -20,6 +22,9 @@ import io.qameta.allure.Story;
 @Feature("F50: Feature login Page")
 @Listeners(TestAllureListener.class)
 public class LoginPageTest extends BaseTest {
+	
+	private static final Logger log = LogManager.getLogger(LoginPageTest.class);
+
 
 	@Description("Login page title test......")
 	@Severity(SeverityLevel.MINOR)
@@ -27,6 +32,7 @@ public class LoginPageTest extends BaseTest {
 	public void loginPageTitle() {
 
 		String actualTitle = loginPage.getLoginPageTitle();
+		log.info("Actual loginpage title: "+actualTitle);
 		Assert.assertEquals(actualTitle, AppConstants.LOGIN_PAGE_TITLE);
 
 	}

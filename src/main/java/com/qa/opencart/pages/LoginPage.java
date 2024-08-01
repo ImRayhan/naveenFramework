@@ -1,8 +1,9 @@
 package com.qa.opencart.pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import com.qa.opencart.constants.AppConstants;
 import com.qa.opencart.utils.ElementUtil;
 
@@ -21,6 +22,8 @@ public class LoginPage {
 	private By logo = By.cssSelector("img[title='naveenopencart']");
 	private By registerLink = By.linkText("Register");
 
+	private static final Logger log = LogManager.getLogger(LoginPage.class);
+
 	// page const...
 	public LoginPage(WebDriver driver) {
 		this.driver = driver;
@@ -30,9 +33,10 @@ public class LoginPage {
 	@Step("getting loginpage title")
 	// page actions/methods:
 	public String getLoginPageTitle() {
- 
+
 		String title = eleUtil.waitForTitleIs(AppConstants.LOGIN_PAGE_TITLE, AppConstants.SHORT_DEFULT_WAIT);
-		System.out.println("login page title:" + title);
+		// System.out.println("login page title:" + title);
+		log.info("login page title:" + title);
 		return title;
 
 	}
@@ -40,15 +44,18 @@ public class LoginPage {
 	@Step("getting loginpage url")
 	public String getCurrentUrl() {
 		String url = eleUtil.waitForURLContains(AppConstants.LOGIN_PAGE_URL_FRACTION, AppConstants.SHORT_DEFULT_WAIT);
-		System.out.println("login page url:" + url);
+		// System.out.println("login page url:" + url);
+		log.info("login page url:" + url);
 		return url;
 
 	}
+
 	@Step("cheking forot pass link exist or not")
 	public boolean isForgotPwdLinkExist() {
 		return eleUtil.waitForVisibilityOfElement(forgotPwdLink, AppConstants.SHORT_DEFULT_WAIT).isDisplayed();
 
 	}
+
 	@Step("cheking logo pass link exist or not")
 	public boolean isLogoExist() {
 		return eleUtil.waitForVisibilityOfElement(logo, AppConstants.SHORT_DEFULT_WAIT).isDisplayed();
@@ -57,12 +64,14 @@ public class LoginPage {
 
 	@Step("user name is: {0} and password {1}")
 	public AccountPage doLogin(String username, String pwd) {
-		eleUtil.waitForVisibilityOfElement(userName, AppConstants.MEDIUM_DEFULT_WAIT).sendKeys("ab123456789@yahoo.com");
-		eleUtil.doSendKeys(password, "ab123456789");
+		 log.info("creditials aare: " + username +" : "+ pwd);
+		eleUtil.waitForVisibilityOfElement(userName, AppConstants.MEDIUM_DEFULT_WAIT).sendKeys(username);
+		eleUtil.doSendKeys(password, pwd);
 		eleUtil.doClick(loginBtn);
 		return new AccountPage(driver);
 
 	}
+
 	@Step("naviget to tegister page")
 	public RegisterPage naviGateTORegisterPage() {
 
