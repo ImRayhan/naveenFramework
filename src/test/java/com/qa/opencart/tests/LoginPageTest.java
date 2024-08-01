@@ -66,5 +66,5 @@ public class LoginPageTest extends BaseTest {
 		Assert.assertTrue(accPage.isLogoutLinkExist());
 
 	}
-
+////
 }
